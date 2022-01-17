@@ -14,21 +14,33 @@ architecture BehaviouralSequenceDetectorTb of SequenceDetectorTb is
   end component;
 
   signal value: std_logic_vector(0 to 3);
-  signal clk: std_logic ;
+  signal clk: std_logic;
+  signal started: boolean := false;
 
 begin
 
   uut: SequenceDetector port map ( value => value,
                                    clk   => clk );
 
+  clk <= not clk after 20ns when started else '0';
+
   stimulus: process
   begin
     
-    clk <= '0', '1' after 10 ns, '0' after 10 ns, '1' after 10 ns, '0' after 10 ns, '1' after 10 ns, '0' after 10 ns, '1' after 10 ns, '0' after 10 ns, '1' after 10 ns;
-    value <= "0000", "0001" after 15 ns, "1000" after 15 ns, "0010" after 15 ns, "0100" after 15 ns, "0100" after 15 ns;
-
+    value <= "0001";
+    started <= true;
+    wait for 22 ns;
+    value <= "1000";
+    wait for 22 ns;
+    value <= "0010";
+    wait for 22 ns;
+    value <= "0100";
+    wait for 22 ns;
+    value <= "0100";
+    wait for 22 ns;
+    started <= false;
+    
     wait;
   end process;
-
 
 end;
