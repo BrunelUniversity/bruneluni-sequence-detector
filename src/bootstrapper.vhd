@@ -4,47 +4,43 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity bootstrapper is port (
     buttons: in std_logic_vector(0 to 3);
-    clk: in std_logic
+    clk: in std_logic;
+    output_state: out std_logic_vector(0 to 1)
 );
 end;
 
 architecture behavioural_bootstrapper of bootstrapper is
     signal state : std_logic_vector(0 to 2) := "000";
-    signal finished : boolean := false;
+    signal finished : std_logic := '0';
+    signal button_pressed : std_logic := '0';
+    signal count : integer := 0;
+    
+    component sequence_detector port (
+        buttons: in std_logic_vector(0 to 3);
+        finished: out std_logic;
+        button_pressed: out std_logic;
+        clk: in std_logic
+    );
+    end component;
+    
 begin
+    detector: sequence_detector port map (
+        buttons => buttons,
+        finished => finished,
+        button_pressed => button_pressed,
+        clk => clk
+    );
     process(clk)
     begin
-        case buttons is
-            when "0001" =>
-                report "button 1 pressed";
-                if state = "000" then
-                    report "state 000 to state 001";
-                    state <= "001";
-                end if;
-            when "0010" =>
-                report "button 2 pressed";
-                if state = "010" then
-                    report "state 010 to state 011";
-                    state <= "011";
-                end if;
-            when "0100" =>
-                report "button 3 pressed";
-                if state = "011" then
-                    report "state 011 to state 100";
-                    state <= "100";
-                elsif state = "100" then
-                    report "state 100 to state done";
-                    report "DONE!!";
-                    finished <= true;
-                end if;
-            when "1000" =>
-                report "button 4 pressed";
-                if state = "001" then
-                    report "state 001 to state 010";
-                    state <= "010";
-                end if;
-            when others =>
-                report "invalid button press :P";
-        end case;
+        if count = 12 then
+            output_state <= "01";
+        end if;
+        if finished = '1' then
+            output_state <= "10";
+        end if;
+        if button_pressed = '1' then
+            count <= count + 1;
+        end if;
+        report "tick";
     end process;
 end;

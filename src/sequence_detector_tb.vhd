@@ -7,7 +7,7 @@ end;
 
 architecture behavioural_sequence_detector_tb of sequence_detector_tb is
 
-  component sequence_detector port (
+  component bootstrapper port (
       value: in std_logic_vector(0 to 3);
       clk: in std_logic
   );
@@ -19,7 +19,7 @@ architecture behavioural_sequence_detector_tb of sequence_detector_tb is
 
 begin
 
-  uut: sequence_detector port map ( value => value,
+  uut: bootstrapper port map ( value => value,
                                    clk   => clk );
 
   clk <= not clk after 20ns when started else '0';
