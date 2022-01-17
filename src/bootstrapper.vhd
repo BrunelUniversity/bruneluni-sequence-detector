@@ -2,19 +2,19 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity sequence_detector is port (
-    value: in std_logic_vector(0 to 3);
+entity bootstrapper is port (
+    buttons: in std_logic_vector(0 to 3);
     clk: in std_logic
 );
 end;
 
-architecture behavioural_sequence_detector of sequence_detector is
+architecture behavioural_bootstrapper of bootstrapper is
     signal state : std_logic_vector(0 to 2) := "000";
     signal finished : boolean := false;
 begin
     process(clk)
     begin
-        case value is
+        case buttons is
             when "0001" =>
                 report "button 1 pressed";
                 if state = "000" then
