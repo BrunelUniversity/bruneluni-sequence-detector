@@ -2,10 +2,10 @@ library IEEE;
 use IEEE.Std_logic_1164.all;
 use IEEE.Numeric_Std.all;
 
-entity SequenceDetectorTb is
+entity sequence_detector_tb is
 end;
 
-architecture BehaviouralSequenceDetectorTb of SequenceDetectorTb is
+architecture behavioural_sequence_detector_tb of sequence_detector_tb is
 
   component SequenceDetector port (
       value: in std_logic_vector(0 to 3);

@@ -2,13 +2,13 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity SequenceDetector is port (
+entity sequence_detector is port (
     value: in std_logic_vector(0 to 3);
     clk: in std_logic
 );
-end SequenceDetector;
+end;
 
-architecture BehaviouralSequenceDetector of SequenceDetector is
+architecture behavioural_sequence_detector of sequence_detector is
 begin
     process(clk)
         variable counter : integer range 0 to 3;
@@ -48,4 +48,4 @@ begin
                 report "invalid button press :P";
         end case;
     end process;
-end BehaviouralSequenceDetector;
+end;
