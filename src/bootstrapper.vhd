@@ -32,11 +32,12 @@ begin
     );
     process(clk)
     begin
-        if count = 12 then
-            output_state <= "01";
-        end if;
         if finished = '1' then
             output_state <= "10";
+        elsif count >= 12 then
+            output_state <= "01";
+        else
+            output_state <= "00";
         end if;
         if button_pressed = '1' then
             count <= count + 1;
