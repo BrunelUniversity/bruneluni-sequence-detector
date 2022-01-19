@@ -2,10 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity sequence_detector_tb is
+entity sequence_detector_sim is
 end;
 
-architecture behavioural_sequence_detector_tb of sequence_detector_tb is
+architecture behavioural_sequence_detector_sim of sequence_detector_sim is
 
     component bootstrapper port (
         buttons: in std_logic_vector(0 to 3);
