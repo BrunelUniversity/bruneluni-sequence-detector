@@ -30,30 +30,33 @@ begin
         output_state => output_state
     );
 
+    test_runner : process
+    begin
+        started <= true;
+		test_runner_setup(runner, runner_cfg);
+        assert output_state = "00";
+        wait for 210 ns;
+        assert output_state = "10";
+		test_runner_cleanup(runner);
+		started <= false;
+		wait;
+    end process;
+    
     clk <= not clk after 20 ns when started else '0';
 
-    stimulus: process
+    buttons_change : process
     begin
-		test_runner_setup(runner, runner_cfg);
-        buttons <= "0001";
-        started <= true;
-        wait for 41 ns;
-		assert output_state = "10";
-        buttons <= "1000";
-        wait for 41 ns;
-		assert output_state = "10";
-        buttons <= "0010";
-        wait for 41 ns;
-		assert output_state = "10";
-        buttons <= "0100";
-        wait for 41 ns;
-		assert output_state = "10";
-        buttons <= "0100";
-        wait for 41 ns;
-		assert output_state = "00";
-		wait for 41 ns;
-        started <= false;
-		test_runner_cleanup(runner);
-		wait;
+        if(started) then
+            buttons <= "0001";
+            wait for 41 ns;
+            buttons <= "1000";
+            wait for 41 ns;
+            buttons <= "0010";
+            wait for 41 ns;
+            buttons <= "0100";
+            wait for 41 ns;
+            buttons <= "0100";
+            wait for 41 ns;
+        end if;
     end process;
 end;

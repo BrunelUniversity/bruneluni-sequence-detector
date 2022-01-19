@@ -4,9 +4,9 @@ use ieee.numeric_std.all;
 use work.sequence_detection_pkg.all;
 
 entity bootstrapper is port (
-    buttons: in std_logic_vector(0 to 3);
-    clk: in std_logic;
-    output_state: out std_logic_vector(0 to 1)
+    buttons: in std_logic_vector(0 to 3) := "0000";
+    clk: in std_logic := '0';
+    output_state: out std_logic_vector(0 to 1) := "00"
 );
 end;
 
@@ -20,8 +20,6 @@ begin
         variable sequence_detector_out : std_logic_vector(0 to 4) := "00000";
     begin
         if finished = '1' then
-            output_state <= "00";
-        else
             output_state <= "10";
         end if;
         if rising_edge(clk) then
