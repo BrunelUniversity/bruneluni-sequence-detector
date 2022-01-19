@@ -10,6 +10,6 @@ jobs:
     - name: checkout head
       uses: actions/checkout@v2
     - name: run vunit tests
-    - uses: VUnit/vunit_action@v0.1.0
+      uses: VUnit/vunit_action@v0.1.0
       with:
         run_file: src/vunit_run_script.py
