@@ -35,7 +35,7 @@ begin
         started <= true;
 		test_runner_setup(runner, runner_cfg);
         assert output_state = "00";
-        wait for 210 ns;
+        wait for 250 ns;
         assert output_state = "10";
 		test_runner_cleanup(runner);
 		started <= false;
@@ -43,20 +43,10 @@ begin
     end process;
     
     clk <= not clk after 20 ns when started else '0';
-
-    buttons_change : process
-    begin
-        if(started) then
-            buttons <= "0001";
-            wait for 41 ns;
-            buttons <= "1000";
-            wait for 41 ns;
-            buttons <= "0010";
-            wait for 41 ns;
-            buttons <= "0100";
-            wait for 41 ns;
-            buttons <= "0100";
-            wait for 41 ns;
-        end if;
-    end process;
+    
+    buttons <=  "0001" after 41 ns,
+                "1000" after 41 ns,
+                "0010" after 41 ns,
+                "0100" after 41 ns,
+                "0100" after 41 ns;
 end;
