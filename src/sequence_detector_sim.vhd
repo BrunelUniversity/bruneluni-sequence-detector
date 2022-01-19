@@ -37,27 +37,27 @@ begin
         buttons <= "0001";
         started <= true;
         wait for 41 ns;
-        if not output_state = "10" then
+        if output_state = "00" then
 			assertion <= true;
 		end if;
         buttons <= "1000";
         wait for 41 ns;
-		if not output_state = "10" then
+		if output_state = "00" then
 			assertion <= true;
 		end if;
         buttons <= "0010";
         wait for 41 ns;
-		if not output_state = "10" then
+		if output_state = "00" then
 			assertion <= true;
 		end if;
         buttons <= "0100";
         wait for 41 ns;
-		if not output_state = "10" then
+		if output_state = "00" then
 			assertion <= true;
 		end if;
         buttons <= "0100";
         wait for 41 ns;
-		if not output_state = "00" then
+		if output_state = "10" then
 			assertion <= true;
 		end if;
         wait for 41 ns;

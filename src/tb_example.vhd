@@ -10,14 +10,15 @@ architecture tb of tb_example is
 		assertion: out boolean
 	);
     end component;
-	signal assertion: boolean;
+	signal assertion: boolean := false;
 begin
   sut : sequence_detector_sim port map(assertion => assertion);
-  main : process(assertion)
+  main : process
   begin
     test_runner_setup(runner, runner_cfg);
     report "Hello world!";
-	assert assertion;
+	wait 250 ns;
+	assert not assertion;
     test_runner_cleanup(runner);
   end process;
 end architecture;
