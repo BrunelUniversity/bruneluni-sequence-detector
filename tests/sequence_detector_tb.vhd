@@ -54,8 +54,6 @@ begin
 		wait for 41 ns;
         started <= false;
 		test_runner_cleanup(runner);
-		
+		wait;
     end process;
-    
-    
 end;
