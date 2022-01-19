@@ -53,7 +53,7 @@ begin
         buttons <= "0100";
         wait for 41 ns;
 		if not output_state = "10" then
-			assertion = true;
+			assertion <= true;
 		end if;
         buttons <= "0100";
         wait for 41 ns;
