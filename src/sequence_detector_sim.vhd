@@ -27,7 +27,7 @@ begin
         output_state => output_state
     );
 
-    clk <= not clk after 20ns when started else '0';
+    clk <= not clk after 20 ns when started else '0';
 
     stimulus: process
     begin
