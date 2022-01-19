@@ -1,0 +1,14 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ trunk ]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout head
+      uses: actions/checkout@v2
+    - uses: VUnit/vunit_action@master
+      with:
+        cmd: src/vunit_run_script.py

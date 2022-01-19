@@ -24,9 +24,11 @@ begin
         else
             output_state <= "10";
         end if;
-        sequence_detector_out := sequence_detector(state, buttons);
-        state <= sequence_detector_out(0 to 2);
-        button_pressed <= sequence_detector_out(3);
-        finished <= sequence_detector_out(4);
+        if rising_edge(clk) then
+            sequence_detector_out := sequence_detector(state, buttons);
+            state <= sequence_detector_out(0 to 2);
+            button_pressed <= sequence_detector_out(3);
+            finished <= sequence_detector_out(4);
+        end if;
     end process;
 end;
