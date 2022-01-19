@@ -35,7 +35,6 @@ begin
     stimulus: process
     begin
 		test_runner_setup(runner, runner_cfg);
-		info("Hello world");
         buttons <= "0001";
         started <= true;
         wait for 41 ns;
