@@ -2,7 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity sequence_detector_sim is
+entity sequence_detector_sim is port(
+    assertion: out std_logic
+);
 end;
 
 architecture behavioural_sequence_detector_sim of sequence_detector_sim is
@@ -31,22 +33,33 @@ begin
 
     stimulus: process
     begin
+		assertion = '0';
         buttons <= "0001";
         started <= true;
         wait for 41 ns;
-        assert output_state = "10";
+        if not output_state = "10" then
+			assertion = '1';
+		end if;
         buttons <= "1000";
         wait for 41 ns;
-        assert output_state = "10";
+		if not output_state = "10" then
+			assertion = '1';
+		end if;
         buttons <= "0010";
         wait for 41 ns;
-        assert output_state = "00";
+		if not output_state = "10" then
+			assertion = '1';
+		end if;
         buttons <= "0100";
         wait for 41 ns;
-        assert output_state = "00";
+		if not output_state = "10" then
+			assertion = '1';
+		end if;
         buttons <= "0100";
         wait for 41 ns;
-        assert output_state = "00";
+		if not output_state = "00" then
+			assertion = '1';
+		end if;
         wait for 41 ns;
         started <= false;
         wait;

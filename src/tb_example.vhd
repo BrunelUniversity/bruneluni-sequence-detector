@@ -6,15 +6,18 @@ entity tb_example is
 end entity;
 
 architecture tb of tb_example is
-	component sequence_detector_sim
+	component sequence_detector_sim is port(
+		assertion: out std_logic
+	);
     end component;
+	signal assertion: std_logic;
 begin
-  sut : sequence_detector_sim;
-  main : process
+  sut : sequence_detector_sim port map(assertion => assertion);
+  main : process(assertion)
   begin
     test_runner_setup(runner, runner_cfg);
     report "Hello world!";
-	assert false;
+	assert assertion = '0';
     test_runner_cleanup(runner);
   end process;
 end architecture;
