@@ -50,7 +50,7 @@ begin
 		assert output_state = "10";
         buttons <= "0100";
         wait for 41 ns;
-		assert output_state = "10";
+		assert output_state = "00";
 		wait for 41 ns;
         started <= false;
 		test_runner_cleanup(runner);
