@@ -12,4 +12,4 @@ jobs:
     - name: run vunit tests
       uses: VUnit/vunit_action@v0.1.0
       with:
-        run_file: src/vunit_run_script.py
+        run_file: tests/vunit_run_script.py
