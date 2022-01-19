@@ -31,8 +31,6 @@ begin
 
     stimulus: process
     begin
-        
-        assert buttons = "0001";
         buttons <= "0001";
         started <= true;
         wait for 41 ns;
@@ -45,7 +43,6 @@ begin
         buttons <= "0100";
         wait for 81 ns;
         started <= false;
-        assert output_state = "00";
         wait;
     end process;
 end;
