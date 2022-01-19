@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity sequence_detector_sim is port(
-    assertion: out std_logic
+    assertion: out boolean
 );
 end;
 
