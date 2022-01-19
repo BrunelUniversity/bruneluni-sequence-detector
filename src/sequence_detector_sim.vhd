@@ -40,7 +40,7 @@ begin
         assert output_state = "10";
         buttons <= "0010";
         wait for 41 ns;
-        assert output_state = "10";
+        assert output_state = "00";
         buttons <= "0100";
         wait for 41 ns;
         assert output_state = "00";
