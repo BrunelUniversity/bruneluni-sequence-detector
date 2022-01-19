@@ -6,7 +6,10 @@ entity tb_example is
 end entity;
 
 architecture tb of tb_example is
+	component sequence_detector_sim
+    end component;
 begin
+  sut : sequence_detector_sim;
   main : process
   begin
     test_runner_setup(runner, runner_cfg);
