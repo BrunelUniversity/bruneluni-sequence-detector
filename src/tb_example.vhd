@@ -14,7 +14,7 @@ begin
   begin
     test_runner_setup(runner, runner_cfg);
     report "Hello world!";
-	assert true;
+	assert false;
     test_runner_cleanup(runner);
   end process;
 end architecture;
