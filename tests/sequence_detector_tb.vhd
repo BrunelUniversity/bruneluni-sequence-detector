@@ -2,10 +2,10 @@ library vunit_lib;
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-context vunit_lib.vunit_context;
+use vunit_lib.run_pkg.all;
 
 entity sequence_detector_tb is
-	generic (runner_cfg : string);
+	generic (runner_cfg : string := "");
 end;
 
 architecture behavoural_sequence_detector_tb of sequence_detector_tb is
