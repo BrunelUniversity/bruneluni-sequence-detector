@@ -17,7 +17,7 @@ begin
   begin
     test_runner_setup(runner, runner_cfg);
     report "Hello world!";
-	wait 250 ns;
+	wait until 250 ns;
 	assert not assertion;
     test_runner_cleanup(runner);
   end process;

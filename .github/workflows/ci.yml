@@ -1,14 +1,15 @@
-name: CI Pipeline
+name: ci pipeline
 
 on:
   push:
     branches: [ trunk ]
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout head
+    - name: checkout head
       uses: actions/checkout@v2
+    - name: run vunit tests
     - uses: VUnit/vunit_action@v0.1.0
       with:
         run_file: src/vunit_run_script.py
