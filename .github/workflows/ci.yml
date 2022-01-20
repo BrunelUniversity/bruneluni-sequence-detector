@@ -19,7 +19,7 @@ jobs:
         cd ghdl
         sudo apt install -qq gnat
         ./configure --prefix=/usr/
-        make --silent
+        sudo make --silent
         make install
         pip install vunit_hdl
     - name: run unit tests
