@@ -9,7 +9,13 @@ jobs:
     steps:
     - name: checkout head
       uses: actions/checkout@v2
-    - name: run vunit tests
-      uses: VUnit/vunit_action@v0.1.0
+    - name: set up python
+      uses: actions/setup-python@v2
       with:
-        run_file: tests/vunit_run_script.py
+        python-version: "3.10"
+    - name: set up vunit
+      run: |
+        sudo apt-get install ghdl
+        pip install vunit_hdl
+    - name: run unit tests
+      run: python /tests/vunit_run_script.py
