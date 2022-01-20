@@ -5,14 +5,14 @@ use work.sequence_state_util_pkg.all;
 use work.string_util_pkg.all;
 use work.log_util_pkg.all;
 
-entity bootstrapper is port (
+entity sequence_detector is port (
     buttons: in std_logic_vector(0 to 3) := "0000";
     clk: in std_logic := '0';
     output_state: out std_logic_vector(0 to 1) := "00"
 );
 end;
 
-architecture behavioural_bootstrapper of bootstrapper is
+architecture behavioural_sequence_detector of sequence_detector is
     signal state : std_logic_vector(0 to 2) := "000";
     signal finished : std_logic := '0';
     signal button_pressed : std_logic := '0';
