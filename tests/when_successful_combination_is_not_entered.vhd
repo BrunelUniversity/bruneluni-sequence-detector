@@ -12,13 +12,13 @@ architecture behavioural_when_successful_combination_is_not_entered_tb of when_s
 
     component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
-        clk: in std_logic;
+        buttons_stable: in std_logic;
         output_state: out std_logic_vector(0 to 1)
     );
     end component;
 
     signal buttons: std_logic_vector(0 to 3) := "0000";
-    signal clk: std_logic := '0';
+    signal buttons_stable: std_logic := '0';
     signal started: std_logic := '0';
     signal output_state: std_logic_vector(0 to 1) := "00";
 
@@ -26,11 +26,11 @@ begin
 
     sut: sequence_detector port map (
         buttons => buttons,
-        clk => clk,
+        buttons_stable => buttons_stable,
         output_state => output_state
     );
     
-    clk <= not clk after 20 ns when started = '1';
+    buttons_stable <= not buttons_stable after 20 ns when started = '1';
     
     test_runner : process
     begin

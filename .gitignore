@@ -1,3 +1,4 @@
 # jetbrains ide
 /.idea
-/tests/vunit_out
+# vunit cache
+vunit_out
