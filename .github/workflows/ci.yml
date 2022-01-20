@@ -15,7 +15,12 @@ jobs:
         python-version: "3.10"
     - name: set up vunit
       run: |
-        sudo apt-get install ghdl
+        git clone https://github.com/ghdl/ghdl.git
+        cd ghdl
+        sudo apt install gnat
+        ./configure --prefix=/usr/local
+        make
+        make install
         pip install vunit_hdl
     - name: run unit tests
       run: python ./tests/vunit_run_script.py
