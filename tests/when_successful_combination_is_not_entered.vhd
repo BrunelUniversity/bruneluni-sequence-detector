@@ -10,7 +10,7 @@ end;
 
 architecture behavioural_when_successful_combination_is_not_entered_tb of when_successful_combination_is_not_entered_tb is
 
-    component bootstrapper port (
+    component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
         clk: in std_logic;
         output_state: out std_logic_vector(0 to 1)
@@ -24,7 +24,7 @@ architecture behavioural_when_successful_combination_is_not_entered_tb of when_s
 
 begin
 
-    sut: bootstrapper port map (
+    sut: sequence_detector port map (
         buttons => buttons,
         clk => clk,
         output_state => output_state
