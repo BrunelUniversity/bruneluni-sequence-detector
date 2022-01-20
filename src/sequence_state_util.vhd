@@ -12,7 +12,7 @@ end;
 package body sequence_state_util_pkg is
     function get_next_state(state: std_logic_vector(0 to 2) := "000";
         buttons: std_logic_vector(0 to 3) := "0000") return sequence_state_dto is
-        variable next_state: std_logic_vector(0 to 2) := "000";
+        variable next_state: std_logic_vector(0 to 2) := state;
         variable button_pressed: std_logic := '0';
         variable finished: std_logic := '0';
     begin
