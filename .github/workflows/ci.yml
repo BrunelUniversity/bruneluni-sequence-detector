@@ -20,7 +20,7 @@ jobs:
         sudo apt install -qq gnat
         sudo ./configure --prefix=/usr/
         sudo make --silent
-        make install
+        sudo make install
         pip install vunit_hdl
     - name: run unit tests
       run: python ./tests/vunit_run_script.py --log-level warning
