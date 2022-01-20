@@ -1,4 +1,4 @@
-# start dev environment
+# setup dev environment
 - create new vivado project for the xilinx artix-7 device
 - add all '.vhd' files in '/src' to the design sources
 - add all '.vhd' files in '/tests' to the simulation sources
