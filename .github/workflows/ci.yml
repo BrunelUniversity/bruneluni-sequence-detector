@@ -18,4 +18,4 @@ jobs:
         sudo apt-get install ghdl
         pip install vunit_hdl
     - name: run unit tests
-      run: python /tests/vunit_run_script.py
+      run: python ./tests/vunit_run_script.py
