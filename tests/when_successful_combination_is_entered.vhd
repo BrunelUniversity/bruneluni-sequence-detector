@@ -4,11 +4,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use vunit_lib.run_pkg.all;
 
-entity sequence_detector_tb is
+entity when_successful_combination_is_entered_tb is
 	generic (runner_cfg : string := "");
 end;
 
-architecture behavoural_sequence_detector_tb of sequence_detector_tb is
+architecture behavioural_when_successful_combination_is_entered_tb of when_successful_combination_is_entered_tb is
 
     component bootstrapper port (
         buttons: in std_logic_vector(0 to 3);
