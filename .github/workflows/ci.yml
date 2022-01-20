@@ -23,4 +23,4 @@ jobs:
         sudo make install
         pip install vunit_hdl
     - name: run unit tests
-      run: python ./tests/vunit_run_script.py --log-level warning
+      run: python ./tests/vunit_run_script.py --log-level error
