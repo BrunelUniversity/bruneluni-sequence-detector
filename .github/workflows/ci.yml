@@ -18,7 +18,7 @@ jobs:
         git clone --quiet https://github.com/ghdl/ghdl.git
         cd ghdl
         sudo apt install -qq gnat
-        ./configure --prefix=/usr/
+        sudo ./configure --prefix=/usr/
         sudo make --silent
         make install
         pip install vunit_hdl
