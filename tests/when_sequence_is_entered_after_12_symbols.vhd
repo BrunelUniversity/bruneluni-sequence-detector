@@ -4,11 +4,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use vunit_lib.run_pkg.all;
 
-entity when_successful_combination_is_not_entered_tb is
+entity when_sequence_is_entered_after_12_symbols_tb is
 	generic (runner_cfg : string := "");
 end;
 
-architecture behavioural_when_successful_combination_is_not_entered_tb of when_successful_combination_is_not_entered_tb is
+architecture behavioural_when_sequence_is_entered_after_12_symbols_tb of when_sequence_is_entered_after_12_symbols_tb is
 
     component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
