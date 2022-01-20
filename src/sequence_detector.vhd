@@ -25,10 +25,16 @@ begin
             finished => '0'
         );
     begin
-        if finished = '1' then
-            output_state <= "10";
-        end if;
         if rising_edge(clk) then
+            if finished = '1' then
+                output_state <= "10";
+            end if;
+            if button_pressed = '1' then
+                count <= count + 1;
+            end if;
+            if count = 12 then
+                output_state <= "01";
+            end if;
             log_info("state: "&std_logic_vector_to_string(state)&" === buttons: "&std_logic_vector_to_string(buttons));
             sequence_detector_out := get_next_state(state, buttons);
             state <= sequence_detector_out.next_state;
