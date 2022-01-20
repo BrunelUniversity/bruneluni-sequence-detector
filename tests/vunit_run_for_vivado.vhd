@@ -16,11 +16,9 @@ package body run_pkg is
         (runner : in string;
         runner_cfg : in string) is  
     begin
-        report "something";
     end;
         procedure test_runner_cleanup
         (runner : in string) is  
     begin
-        report "something";
     end;
 end;
