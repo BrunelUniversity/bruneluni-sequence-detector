@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.sequence_detection_pkg.all;
+use work.string_util_pkg.all;
 
 entity bootstrapper is port (
     buttons: in std_logic_vector(0 to 3) := "0000";
@@ -23,6 +24,7 @@ begin
             output_state <= "10";
         end if;
         if rising_edge(clk) then
+            report "state: "&std_logic_vector_to_string(state)&" === buttons: "&std_logic_vector_to_string(buttons);
             sequence_detector_out := sequence_detector(state, buttons);
             state <= sequence_detector_out(0 to 2);
             button_pressed <= sequence_detector_out(3);

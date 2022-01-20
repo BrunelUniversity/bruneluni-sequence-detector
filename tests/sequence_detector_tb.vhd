@@ -17,10 +17,10 @@ architecture behavoural_sequence_detector_tb of sequence_detector_tb is
     );
     end component;
 
-    signal buttons: std_logic_vector(0 to 3);
-    signal clk: std_logic;
-    signal started: boolean := false;
-    signal output_state: std_logic_vector(0 to 1);
+    signal buttons: std_logic_vector(0 to 3) := "0000";
+    signal clk: std_logic := '0';
+    signal started: std_logic := '0';
+    signal output_state: std_logic_vector(0 to 1) := "00";
 
 begin
 
@@ -29,24 +29,28 @@ begin
         clk => clk,
         output_state => output_state
     );
-
+    
+    clk <= not clk after 20 ns when started = '1';
+    
     test_runner : process
     begin
-        started <= true;
 		test_runner_setup(runner, runner_cfg);
+		started <= '1';
         assert output_state = "00";
-        wait for 250 ns;
+        wait for 40.1 ns;
+        buttons <= "0001";
+        wait for 40.1 ns;
+        buttons <= "1000";
+        wait for 40.1 ns;
+        buttons <= "0010";
+        wait for 40.1 ns;
+        buttons <= "0100";
+        wait for 40.1 ns;
+        buttons <= "0100";
+        wait for 80.1 ns;
         assert output_state = "10";
+        started <= '0';
 		test_runner_cleanup(runner);
-		started <= false;
 		wait;
     end process;
-    
-    clk <= not clk after 20 ns when started else '0';
-    
-    buttons <=  "0001" after 41 ns,
-                "1000" after 41 ns,
-                "0010" after 41 ns,
-                "0100" after 41 ns,
-                "0100" after 41 ns;
 end;
