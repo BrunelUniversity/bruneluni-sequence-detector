@@ -15,10 +15,10 @@ jobs:
         python-version: "3.10"
     - name: set up vunit
       run: |
-        git clone https://github.com/ghdl/ghdl.git
+        git clone --quiet https://github.com/ghdl/ghdl.git
         cd ghdl
-        apt install gnat
-        ./configure --prefix=/usr/
+        sudo apt install -qq gnat
+        ./configure --prefix=/usr/ --enable-silent-rules
         make
         make install
         pip install vunit_hdl
