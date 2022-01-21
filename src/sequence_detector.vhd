@@ -35,7 +35,9 @@ begin
             if count = 12 then
                 output_state <= "01";
             end if;
-            log_info("state: "&std_logic_vector_to_string(state)&" === buttons: "&std_logic_vector_to_string(buttons));
+            log("state: "&std_logic_vector_to_string(state));
+            log("=== buttons-state: "&std_logic_vector_to_string(buttons(2)&buttons(1)&buttons(0)));
+            log_line(" === buttons: "&std_logic_vector_to_string(buttons));
             sequence_detector_out := get_next_state(state, buttons);
             state <= sequence_detector_out.next_state;
             button_pressed <= sequence_detector_out.button_pressed;
