@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use work.math_util_pkg.all;
 use work.log_util_pkg.all;
+use work.increment_state_pkg.all;
 
 package sequence_state_util_pkg is
     type sequence_state_dto is record
@@ -22,18 +23,8 @@ package body sequence_state_util_pkg is
         if is_power_of_2(buttons) then
             button_pressed := '1';
             case buttons is
-                when "0001" =>
-                    if state = "000" then
-                        next_state := "001";
-                    else
-                        next_state := "000";
-                    end if;
-                when "0010" =>
-                    if state = "010" then
-                        next_state := "011";
-                    else
-                        next_state := "000";
-                    end if;
+                when "0001" => next_state := increment_state(state, "000");
+                when "0010" => next_state := increment_state(state, "010");
                 when "0100" =>
                     if state = "011" then
                         next_state := "100";
@@ -42,12 +33,7 @@ package body sequence_state_util_pkg is
                     else
                         next_state := "000";
                     end if;
-                when "1000" =>
-                    if state = "001" then
-                        next_state := "010";
-                    else
-                        next_state := "000";
-                    end if;
+                when "1000" => next_state := increment_state(state, "001");
                 when others =>
             end case;
         end if;
