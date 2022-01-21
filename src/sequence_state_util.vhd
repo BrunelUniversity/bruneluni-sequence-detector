@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use work.math_util_pkg.all;
+use work.log_util_pkg.all;
 
 package sequence_state_util_pkg is
     type sequence_state_dto is record
@@ -47,6 +48,7 @@ package body sequence_state_util_pkg is
                     else
                         next_state := "000";
                     end if;
+                when others =>
             end case;
         end if;
         return (
