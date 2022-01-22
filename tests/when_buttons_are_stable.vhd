@@ -40,9 +40,6 @@ begin
         btn <= 1;
         wait for 80.1 ns;
         assert buttons_stable = '1';
-        wait for 80.1 ns;
-        assert buttons_stable = '0';
-        started <= '0';
 		test_runner_cleanup(runner);
 		wait;
     end process;
