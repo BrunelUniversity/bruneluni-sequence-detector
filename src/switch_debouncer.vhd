@@ -11,7 +11,7 @@ end;
 architecture behavioral_switch_debouncer of switch_debouncer is
 
 begin
-    process(clk, btn)
+    process(clk)
         variable last_buttons: integer range 0 to 4:=0 ;
         variable clk_count: integer range 0 to 1:=0;
         variable last_stable_buttons: integer range 0 to 4:=0;
@@ -26,8 +26,8 @@ begin
             last_stable_buttons:=btn_var;
             clk_count:=0;
             last_buttons:=btn_var;
-            clk_count:=clk_count+1;
             end if;
+        clk_count:=clk_count+1;
         end if;
     end if;
     buttons_stable<=btn_stable;
