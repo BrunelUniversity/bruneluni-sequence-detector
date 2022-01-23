@@ -19,6 +19,7 @@ begin
         variable btn_stable: bit:='0';
     begin
     if rising_edge(clk) then
+        buttons_stable<='0';
         log("last_buttons: "&integer'image(last_buttons));
         log(" === current_buttons: "&integer'image(btn));
         log(" === clk_count: "&integer'image(clk_count));
@@ -30,8 +31,6 @@ begin
                 clk_count:=0;
                 buttons_stable<='1';
                 last_stable_buttons:=btn;
-            else
-                buttons_stable<='0';
             end if;
         end if;
         last_buttons:=btn;
