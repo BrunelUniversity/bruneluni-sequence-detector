@@ -23,9 +23,10 @@ begin
         log(" === current_buttons: "&integer'image(btn));
         log(" === clk_count: "&integer'image(clk_count));
         log(" === last_stable_buttons: "&integer'image(last_stable_buttons));
+        log(" === not_stable_buttons_equal_buttons: "&boolean'image((not(last_stable_buttons=btn))));
         log_line(" === btn_stable: "&bit'image(btn_stable));
         if clk_count=1 then
-            if (btn = last_buttons and (not(last_stable_buttons=btn))) then
+            if ((btn = last_buttons) and (not(last_stable_buttons=btn))) then
                 clk_count:=0;
                 buttons_stable<='1';
                 last_stable_buttons:=btn;
@@ -34,9 +35,10 @@ begin
             end if;
         end if;
         last_buttons:=btn;
-        clk_count:=clk_count+1;
-        if not(last_stable_buttons=btn) then
+        if last_stable_buttons=btn and clk_count=1 then
             clk_count:=0;
+        else
+            clk_count:=clk_count+1;
         end if;
     end if;
     end process;
