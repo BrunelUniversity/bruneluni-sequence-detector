@@ -5,6 +5,7 @@ use work.log_util_pkg.all;
 use work.increment_state_pkg.all;
 
 package sequence_state_util_pkg is
+    type out_state is (locked, neutral, finished);
     type sequence_state_dto is record
         next_state : std_logic_vector(0 to 2);
         button_pressed : std_logic;

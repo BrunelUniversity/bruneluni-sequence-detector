@@ -13,7 +13,7 @@ architecture behavioural_when_button_is_held_down_tb of when_button_is_held_down
     component switch_debouncer port (
         clk: in std_logic;
         btn: in integer range 0 to 5;
-        buttons_stable: out bit
+        buttons_stable: inout bit
     );
     end component;
 
