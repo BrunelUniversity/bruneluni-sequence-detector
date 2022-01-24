@@ -38,7 +38,11 @@ begin
 		started <= '1';
         assert buttons_stable = '0';
         btn <= 1;
-        wait for 80.1 ns;
+        wait for 20.1 ns;
+        assert buttons_stable = '0';
+        wait for 20.1 ns;
+        assert buttons_stable = '0';
+        wait for 20.1 ns;
         assert buttons_stable = '1';
 		test_runner_cleanup(runner);
 		wait;
