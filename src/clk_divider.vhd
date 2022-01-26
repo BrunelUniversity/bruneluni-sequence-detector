@@ -20,6 +20,7 @@ begin
             log_line(" === clk_divided_state: "&std_logic'image(clk_divided_state));
             if count = divided_ammount then
                 clk_divided_state <= not clk_divided_state;
+                count <= 0;
             end if;
             count <= count + 1;
         end if;
