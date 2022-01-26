@@ -8,13 +8,13 @@ use work.log_util_pkg.all;
 entity sequence_detector is port (
     buttons: in std_logic_vector(0 to 3) := "0000";
     buttons_stable: in std_logic := '0';
-    output_state: out std_logic_vector(0 to 1) := "00"
+    output_state: out out_state_enum := neutral
 );
 end;
 
 architecture behavioural_sequence_detector of sequence_detector is
     signal state : std_logic_vector(0 to 2) := "000";
-    signal finished : std_logic := '0';
+    signal finished_state : std_logic := '0';
     signal button_pressed : std_logic := '0';
     signal count : integer := 0;
 begin
@@ -26,14 +26,14 @@ begin
         );
     begin
         if rising_edge(buttons_stable) then
-            if finished = '1' then
-                output_state <= "10";
+            if finished_state = '1' then
+                output_state <= finished;
             end if;
             if button_pressed = '1' then
                 count <= count + 1;
             end if;
             if count = 12 then
-                output_state <= "01";
+                output_state <= locked;
             end if;
             log("state: "&std_logic_vector_to_string(state));
             log("=== buttons-state: "&std_logic_vector_to_string(buttons(2)&buttons(1)&buttons(0)));
@@ -41,7 +41,7 @@ begin
             sequence_detector_out := get_next_state(state, buttons);
             state <= sequence_detector_out.next_state;
             button_pressed <= sequence_detector_out.button_pressed;
-            finished <= sequence_detector_out.finished;
+            finished_state <= sequence_detector_out.finished;
         end if;
     end process;
 end;
