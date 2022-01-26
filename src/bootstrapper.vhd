@@ -29,6 +29,12 @@ architecture behavioral_bootstrapper of bootstrapper is
     );
     end component;
     
+    component clk_divider port (
+        clk : in  std_logic;
+        divided_ammount : in integer;
+        clk_divided : out std_logic := '0' );
+    end component;
+    
 begin
     debouncer: switch_debouncer port map (
         btn => to_integer(signed(buttons)),
@@ -40,6 +46,12 @@ begin
         buttons => buttons,
         buttons_stable => buttons_stable,
         output_state => output_state
+    );
+    
+    main_clk_divider: clk_divider port map (
+        divided_ammount => 200,
+        clk => clk,
+        clk_divided => divided_clk
     );
 
     process(divided_clk)
