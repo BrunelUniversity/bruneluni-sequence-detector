@@ -1,22 +1,27 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use work.log_util_pkg.all;
 
 entity clk_divider is
-    Port ( clk : in  std_logic;
-           divided_ammount : in integer;
+    Port ( clk : in  std_logic := '0';
+           divided_ammount : in integer := 0;
            clk_divided : out std_logic := '0' );
 end;
 
 architecture behavioral_clk_divider of clk_divider is
-    signal count : integer;
+    signal count : integer := 0;
     signal clk_divided_state : std_logic := '0';
 begin
     clk_divided <= clk_divided_state;
     process (clk)
     begin
-        if (clk'event and count = divided_ammount) then
+        if rising_edge(clk) then
+            log("count: "&integer'image(count));
+            log_line(" === clk_divided_state: "&std_logic'image(clk_divided_state));
+            if count = divided_ammount then
+                clk_divided_state <= not clk_divided_state;
+            end if;
             count <= count + 1;
-            clk_divided_state <= not clk_divided_state;
         end if;
     end process;
 end;
