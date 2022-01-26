@@ -21,8 +21,9 @@ begin
             if count = divided_ammount then
                 clk_divided_state <= not clk_divided_state;
                 count <= 0;
+            else
+                count <= count + 1;
             end if;
-            count <= count + 1;
         end if;
     end process;
 end;
