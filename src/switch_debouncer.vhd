@@ -3,9 +3,9 @@ use ieee.std_logic_1164.all;
 use work.log_util_pkg.all;
 
 entity switch_debouncer is Port (
-    clk: in std_logic;
-    btn: in integer range 0 to 5;
-    buttons_stable: inout bit
+    clk: in std_logic := '0';
+    btn: in integer range 0 to 5 := 0;
+    buttons_stable: inout std_logic := '0'
 );
 end;
 
@@ -22,7 +22,7 @@ begin
             log(" === clk_count: "&integer'image(clk_count));
             log(" === last_stable_buttons: "&integer'image(last_stable_buttons));
             log(" === not_stable_buttons_equal_buttons: "&boolean'image(((last_stable_buttons=btn))));
-            log_line(" === btn_stable: "&bit'image(buttons_stable));
+            log_line(" === btn_stable: "&std_logic'image(buttons_stable));
             buttons_stable<='0';
             if clk_count=1 then
                 if ((btn = last_buttons) and (not(last_stable_buttons=btn))) then

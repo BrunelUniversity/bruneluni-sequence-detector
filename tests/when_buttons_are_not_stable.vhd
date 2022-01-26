@@ -13,14 +13,14 @@ architecture behavioural_when_buttons_are_not_stable_tb of when_buttons_are_not_
     component switch_debouncer port (
         clk: in std_logic;
         btn: in integer range 0 to 5;
-        buttons_stable: out bit
+        buttons_stable: out std_logic
     );
     end component;
 
     signal btn: integer range 0 to 5;
     signal clk: std_logic := '0';
     signal started: std_logic := '0';
-    signal buttons_stable: bit := '0';
+    signal buttons_stable: std_logic := '0';
 
 begin
 

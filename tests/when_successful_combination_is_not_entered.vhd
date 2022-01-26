@@ -3,6 +3,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use vunit_lib.run_pkg.all;
+use work.sequence_state_util_pkg.all;
 
 entity when_successful_combination_is_not_entered_tb is
 	generic (runner_cfg : string := "");
@@ -13,14 +14,14 @@ architecture behavioural_when_successful_combination_is_not_entered_tb of when_s
     component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
         buttons_stable: in std_logic;
-        output_state: out std_logic_vector(0 to 1)
+        output_state: out out_state_enum
     );
     end component;
 
     signal buttons: std_logic_vector(0 to 3) := "0000";
     signal buttons_stable: std_logic := '0';
     signal started: std_logic := '0';
-    signal output_state: std_logic_vector(0 to 1) := "00";
+    signal output_state: out_state_enum := neutral;
 
 begin
 
@@ -36,7 +37,7 @@ begin
     begin
 		test_runner_setup(runner, runner_cfg);
 		started <= '1';
-        assert output_state = "00";
+        assert output_state = neutral;
         wait for 40.1 ns;
         buttons <= "0001";
         wait for 40.1 ns;
@@ -48,7 +49,7 @@ begin
         wait for 40.1 ns;
         buttons <= "0100";
         wait for 80.1 ns;
-        assert output_state = "00";
+        assert output_state = neutral;
         started <= '0';
 		test_runner_cleanup(runner);
 		wait;
