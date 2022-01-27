@@ -5,8 +5,11 @@ use work.sequence_state_util_pkg.all;
 
 entity bootstrapper is Port (
     clk: in std_logic := '0';
-    buttons: in std_logic_vector(0 to 3) := "0000";
-    led: out std_logic := '0'
+    btnc: in std_logic := '0';
+    btnd: in std_logic := '0';
+    btnl: in std_logic := '0';
+    btnr: in std_logic := '0';
+    btnu: in std_logic := '0'
 );
 end;
 
@@ -14,6 +17,7 @@ architecture behavioral_bootstrapper of bootstrapper is
     signal divided_clk : std_logic := '0';
     signal buttons_stable : std_logic := '0';
     signal output_state : out_state_enum := neutral;
+    signal buttons: std_logic_vector(0 to 3) := btnl&btnu&btnr&btnd;
     
     component switch_debouncer port (
         clk: in std_logic;
