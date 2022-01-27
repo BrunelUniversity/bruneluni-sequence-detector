@@ -7,7 +7,7 @@ entity bootstrapper is Port (
     clk: in std_logic := '0';
     buttons: in std_logic_vector(0 to 3) := "0000";
     reset: in std_logic := '0';
-    led: out std_logic_vector(0 to 7) := "00000000"
+    led: buffer std_logic_vector(0 to 7) := "00000000"
 );
 end;
 
@@ -16,12 +16,21 @@ architecture behavioral_bootstrapper of bootstrapper is
     signal light_divided_clk : std_logic := '0';
     signal buttons_stable : std_logic := '0';
     signal output_state : out_state_enum := neutral;
+    signal led_flash : std_logic := '0';
     signal internal_state: std_logic_vector(0 to 2) := "000";
     
     component switch_debouncer port (
         clk: in std_logic := '0';
         buttons: in std_logic_vector(0 to 3) := "0000";
         buttons_stable: buffer std_logic := '0'
+    );
+    end component;
+    
+    component light_flasher port (
+        clk: in std_logic := '0';
+        reset: in std_logic := '0';
+        out_state: in out_state_enum := locked;
+        led: buffer std_logic := '0'
     );
     end component;
     
@@ -66,15 +75,18 @@ begin
         clk_divided => light_divided_clk
     );
     
-    led(4) <= '1' when output_state = finished else '0';
-    led(3) <= buttons_stable;
-    led(0 to 2) <= internal_state;
+    flasher: light_flasher port map (
+        clk => light_divided_clk,
+        reset => reset,
+        out_state => output_state,
+        led => led_flash
+    );
+    
+    led <= "11111111" when led_flash = '1' else "00000000";
 
-    process(divided_clk)
+    process(light_divided_clk)
     begin
-        if rising_edge(divided_clk) then
-            -- TODO: add diagnostics
-        end if;
+        -- TODO: add UART logging
     end process;
 
 end;
