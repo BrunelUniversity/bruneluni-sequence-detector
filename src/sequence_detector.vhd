@@ -18,7 +18,7 @@ architecture behavioural_sequence_detector of sequence_detector is
     signal finished_state : std_logic := '0';
     signal button_pressed : std_logic := '0';
 begin
-    process(buttons_stable)
+    process(buttons_stable, reset)
         variable sequence_detector_out : sequence_state_dto := (
             next_state => "000",
             button_pressed => '0',
@@ -42,11 +42,6 @@ begin
                     count := count + 1;
                 end if;
             else
-                if reset = '1' then
-                    state <= "000";
-                    output_state <= neutral;
-                    count := 0;
-                end if;
             end if;
             log("state: "&std_logic_vector_to_string(state));
             log(" === buttons-state: "&std_logic_vector_to_string(buttons(2)&buttons(1)&buttons(0)));
@@ -54,6 +49,11 @@ begin
             log(" === buttons-count: "&integer'image(count));
             log(" === button-pressed: "&std_Logic'image(button_pressed));
             log_line(" === buttons: "&std_logic_vector_to_string(buttons));
+        end if;
+        if reset = '1' then
+            state <= "000";
+            output_state <= neutral;
+            count := 0;
         end if;
     end process;
 end;
