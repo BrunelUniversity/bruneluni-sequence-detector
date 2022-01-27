@@ -88,5 +88,4 @@ begin
     begin
         -- TODO: add UART logging
     end process;
-
 end;
