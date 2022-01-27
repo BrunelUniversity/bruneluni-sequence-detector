@@ -8,7 +8,8 @@ use work.log_util_pkg.all;
 entity sequence_detector is port (
     buttons: in std_logic_vector(0 to 3) := "0000";
     buttons_stable: in std_logic := '0';
-    output_state: buffer out_state_enum := neutral
+    output_state: buffer out_state_enum := neutral;
+    internal_state: buffer std_logic_vector(0 to 2) := "000"
 );
 end;
 
@@ -17,6 +18,7 @@ architecture behavioural_sequence_detector of sequence_detector is
     signal finished_state : std_logic := '0';
     signal button_pressed : std_logic := '0';
 begin
+    internal_state <= state;
     process(buttons_stable)
         variable sequence_detector_out : sequence_state_dto := (
             next_state => "000",

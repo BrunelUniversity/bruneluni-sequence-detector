@@ -9,7 +9,8 @@ entity bootstrapper is Port (
     btnd: in std_logic := '0';
     btnl: in std_logic := '0';
     btnr: in std_logic := '0';
-    btnu: in std_logic := '0'
+    btnu: in std_logic := '0';
+    led: out std_logic_vector(0 to 7) := "00000000"
 );
 end;
 
@@ -17,7 +18,8 @@ architecture behavioral_bootstrapper of bootstrapper is
     signal divided_clk : std_logic := '0';
     signal buttons_stable : std_logic := '0';
     signal output_state : out_state_enum := neutral;
-    signal buttons: std_logic_vector(0 to 3) := btnl&btnu&btnr&btnd;
+    signal buttons: std_logic_vector(0 to 3) := "0000";
+    signal internal_state: std_logic_vector(0 to 2);
     
     component switch_debouncer port (
         clk: in std_logic;
@@ -29,7 +31,8 @@ architecture behavioral_bootstrapper of bootstrapper is
     component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
         buttons_stable: in std_logic;
-        output_state: out out_state_enum
+        output_state: out out_state_enum;
+        internal_state: buffer std_logic_vector(0 to 2)
     );
     end component;
     
@@ -50,7 +53,8 @@ begin
     detector: sequence_detector port map (
         buttons => buttons,
         buttons_stable => buttons_stable,
-        output_state => output_state
+        output_state => output_state,
+        internal_state => internal_state
     );
     
     main_clk_divider: clk_divider port map (
@@ -58,6 +62,9 @@ begin
         clk => clk,
         clk_divided => divided_clk
     );
+
+    led(0 to 2) <= internal_state;
+    buttons <= btnl&btnu&btnr&btnd;
 
     process(divided_clk)
     begin
