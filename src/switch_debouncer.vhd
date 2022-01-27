@@ -5,7 +5,7 @@ use work.log_util_pkg.all;
 entity switch_debouncer is Port (
     clk: in std_logic := '0';
     btn: in integer range 0 to 5 := 0;
-    buttons_stable: inout std_logic := '0'
+    buttons_stable: buffer std_logic := '0'
 );
 end;
 

@@ -8,7 +8,7 @@ use work.log_util_pkg.all;
 entity sequence_detector is port (
     buttons: in std_logic_vector(0 to 3) := "0000";
     buttons_stable: in std_logic := '0';
-    output_state: inout out_state_enum := neutral
+    output_state: buffer out_state_enum := neutral
 );
 end;
 

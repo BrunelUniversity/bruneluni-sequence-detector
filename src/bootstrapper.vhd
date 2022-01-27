@@ -40,6 +40,7 @@ architecture behavioral_bootstrapper of bootstrapper is
     end component;
     
 begin
+    
     debouncer: switch_debouncer port map (
         btn => to_integer(signed(buttons)),
         clk => clk,
