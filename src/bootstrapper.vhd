@@ -5,11 +5,8 @@ use work.sequence_state_util_pkg.all;
 
 entity bootstrapper is Port (
     clk: in std_logic := '0';
-    btnc: in std_logic := '0';
-    btnd: in std_logic := '0';
-    btnl: in std_logic := '0';
-    btnr: in std_logic := '0';
-    btnu: in std_logic := '0';
+    buttons: in std_logic_vector(0 to 3) := "0000";
+    reset: in std_logic := '0';
     led: out std_logic_vector(0 to 7) := "00000000"
 );
 end;
@@ -18,13 +15,12 @@ architecture behavioral_bootstrapper of bootstrapper is
     signal divided_clk : std_logic := '0';
     signal buttons_stable : std_logic := '0';
     signal output_state : out_state_enum := neutral;
-    signal buttons: std_logic_vector(0 to 3) := "0000";
-    signal internal_state: std_logic_vector(0 to 2);
+    signal internal_state: std_logic_vector(0 to 2) := "000";
     
     component switch_debouncer port (
-        clk: in std_logic;
-        btn: in integer range 0 to 5;
-        buttons_stable: out std_logic
+        clk: in std_logic := '0';
+        buttons: in std_logic_vector(0 to 3) := "0000";
+        buttons_stable: buffer std_logic := '0'
     );
     end component;
     
@@ -45,8 +41,8 @@ architecture behavioral_bootstrapper of bootstrapper is
 begin
     
     debouncer: switch_debouncer port map (
-        btn => to_integer(signed(buttons)),
-        clk => clk,
+        buttons => buttons,
+        clk => divided_clk,
         buttons_stable => buttons_stable
     );
 
@@ -58,18 +54,18 @@ begin
     );
     
     main_clk_divider: clk_divider port map (
-        divided_ammount => 15000000,
+        divided_ammount => 1500000,
         clk => clk,
         clk_divided => divided_clk
     );
-
+    led(4) <= '1' when output_state = finished else '0';
+    led(3) <= buttons_stable;
     led(0 to 2) <= internal_state;
-    buttons <= btnl&btnu&btnr&btnd;
 
     process(divided_clk)
     begin
         if rising_edge(divided_clk) then
-            -- do stuff
+            -- TODO: add diagnostics
         end if;
     end process;
 

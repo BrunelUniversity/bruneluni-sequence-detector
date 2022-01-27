@@ -8,8 +8,8 @@ use work.log_util_pkg.all;
 entity sequence_detector is port (
     buttons: in std_logic_vector(0 to 3) := "0000";
     buttons_stable: in std_logic := '0';
-    output_state: buffer out_state_enum := neutral;
-    internal_state: buffer std_logic_vector(0 to 2) := "000"
+    reset: in std_logic := '0';
+    output_state: buffer out_state_enum := neutral
 );
 end;
 
@@ -18,7 +18,6 @@ architecture behavioural_sequence_detector of sequence_detector is
     signal finished_state : std_logic := '0';
     signal button_pressed : std_logic := '0';
 begin
-    internal_state <= state;
     process(buttons_stable)
         variable sequence_detector_out : sequence_state_dto := (
             next_state => "000",
@@ -31,15 +30,23 @@ begin
             if finished_state = '1' then
                 output_state <= finished;
             end if;
-            if count = 12 then
+            if count >= 12 then
                 output_state <= locked;
             end if;
-            sequence_detector_out := get_next_state(state, buttons);
-            state <= sequence_detector_out.next_state;
-            button_pressed <= sequence_detector_out.button_pressed;
-            finished_state <= sequence_detector_out.finished;
-            if button_pressed = '1' then
-                count := count + 1;
+            if output_state = neutral then
+                sequence_detector_out := get_next_state(state, buttons);
+                state <= sequence_detector_out.next_state;
+                button_pressed <= sequence_detector_out.button_pressed;
+                finished_state <= sequence_detector_out.finished;
+                if button_pressed = '1' then
+                    count := count + 1;
+                end if;
+            else
+                if reset = '1' then
+                    state <= "000";
+                    output_state <= neutral;
+                    count := 0;
+                end if;
             end if;
             log("state: "&std_logic_vector_to_string(state));
             log(" === buttons-state: "&std_logic_vector_to_string(buttons(2)&buttons(1)&buttons(0)));
