@@ -53,7 +53,7 @@ begin
     );
     
     main_clk_divider: clk_divider port map (
-        divided_ammount => 200,
+        divided_ammount => 15000000,
         clk => clk,
         clk_divided => divided_clk
     );
