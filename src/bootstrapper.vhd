@@ -8,13 +8,15 @@ entity bootstrapper is Port (
     clk: in std_logic := '0';
     buttons: in std_logic_vector(0 to 3) := "0000";
     reset: in std_logic := '0';
+    uart_send: out std_logic := '1';
     led: buffer std_logic_vector(0 to 7) := "00000000"
 );
 end;
 
 architecture behavioral_bootstrapper of bootstrapper is
     signal divided_clk : std_logic := '0';
-    signal light_divided_clk : std_logic := '0';
+    signal slow_divided_clk : std_logic := '0';
+    signal uart_divided_clk : std_logic := '0';
     signal buttons_stable : std_logic := '0';
     signal output_state : out_state_enum := neutral;
     signal led_flash : std_logic := '0';
@@ -70,14 +72,20 @@ begin
         clk_divided => divided_clk
     );
     
-    light_clk_divider: clk_divider port map (
+    slow_clk_divider: clk_divider port map (
         divided_ammount => LIGHT_CLK_PERIOD,
         clk => clk,
-        clk_divided => light_divided_clk
+        clk_divided => slow_divided_clk
+    );
+    
+    uart_clk_divider: clk_divider port map (
+        divided_ammount => UART_CLK_PERIOD,
+        clk => clk,
+        clk_divided => uart_divided_clk
     );
     
     flasher: light_flasher port map (
-        clk => light_divided_clk,
+        clk => slow_divided_clk,
         reset => reset,
         out_state => output_state,
         led => led_flash
@@ -85,8 +93,25 @@ begin
     
     led <= "11111111" when led_flash = '1' else "00000000";
 
-    process(light_divided_clk)
+    process(uart_divided_clk)
+        variable data_index: integer := 0;
+        variable data: std_logic_vector(0 to 7) := "01101111";
     begin
-        -- TODO: add UART logging
+        if rising_edge(uart_divided_clk) then
+            if data_index = 0 then
+                uart_send <= '0';
+            elsif data_index < 9 then
+                uart_send <= data(data_index);
+            elsif data_index = 9 then
+                uart_send <= '1';
+            elsif data_index > 9 then
+                uart_send <= '0';
+            end if;
+            if data_index > 500 then
+                data_index := 0;
+            elsif data_index /= 0 then
+                data_index := data_index + 1;
+            end if;
+        end if;
     end process;
 end;
