@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.sequence_state_util_pkg.all;
+use work.hardware_constants_pkg.all;
 
 entity bootstrapper is Port (
     clk: in std_logic := '0';
@@ -64,13 +65,13 @@ begin
     );
     
     main_clk_divider: clk_divider port map (
-        divided_ammount => 1500000,
+        divided_ammount => MAIN_CLK_PERIOD,
         clk => clk,
         clk_divided => divided_clk
     );
     
     light_clk_divider: clk_divider port map (
-        divided_ammount => 15000000,
+        divided_ammount => LIGHT_CLK_PERIOD,
         clk => clk,
         clk_divided => light_divided_clk
     );
