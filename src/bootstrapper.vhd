@@ -22,6 +22,16 @@ architecture behavioral_bootstrapper of bootstrapper is
     signal led_flash : std_logic := '0';
     signal internal_state: std_logic_vector(0 to 2) := "000";
     
+    component serial_logger port (
+        uart_divided_clk: in std_logic;
+        uart_send: out std_logic;
+        out_state: in out_state_enum;
+        internal_state: in std_logic_vector(0 to 2);
+        buttons: in std_logic_vector(0 to 3);
+        buttons_pressed: in std_logic
+    );
+    end component;
+    
     component switch_debouncer port (
         clk: in std_logic := '0';
         buttons: in std_logic_vector(0 to 3) := "0000";
@@ -41,7 +51,8 @@ architecture behavioral_bootstrapper of bootstrapper is
         buttons: in std_logic_vector(0 to 3);
         buttons_stable: in std_logic;
         reset: in std_logic;
-        output_state: out out_state_enum
+        output_state: out out_state_enum;
+        internal_state: buffer std_logic_vector(0 to 2)
     );
     end component;
     
@@ -63,7 +74,8 @@ begin
         buttons => buttons,
         buttons_stable => buttons_stable,
         reset => reset,
-        output_state => output_state
+        output_state => output_state,
+        internal_state => internal_state
     );
     
     main_clk_divider: clk_divider port map (
@@ -91,27 +103,14 @@ begin
         led => led_flash
     );
     
+    logger: serial_logger port map (
+        uart_divided_clk => uart_divided_clk,
+        uart_send => uart_send,
+        out_state => output_state,
+        internal_state => internal_state,
+        buttons => buttons,
+        buttons_pressed => buttons_stable
+    );
+    
     led <= "11111111" when led_flash = '1' else "00000000";
-
-    process(uart_divided_clk)
-        variable data_index: integer := 0;
-        variable data: std_logic_vector(0 to 7) := "01101111";
-    begin
-        if rising_edge(uart_divided_clk) then
-            if data_index = 0 then
-                uart_send <= '0';
-            elsif data_index < 9 then
-                uart_send <= data(data_index);
-            elsif data_index = 9 then
-                uart_send <= '1';
-            elsif data_index > 9 then
-                uart_send <= '0';
-            end if;
-            if data_index > 500 then
-                data_index := 0;
-            elsif data_index /= 0 then
-                data_index := data_index + 1;
-            end if;
-        end if;
-    end process;
 end;
