@@ -10,14 +10,14 @@ end;
 
 architecture behavioural_when_button_is_held_down_tb of when_button_is_held_down_tb is
 
-    component switch_debouncer port (
+        component switch_debouncer port (
         clk: in std_logic;
-        btn: in integer range 0 to 5;
-        buttons_stable: inout std_logic
+        buttons: in std_logic_vector(0 to 3);
+        buttons_stable: buffer std_logic
     );
     end component;
 
-    signal btn: integer range 0 to 5;
+    signal buttons: std_logic_vector(0 to 3) := "0000";
     signal clk: std_logic := '0';
     signal started: std_logic := '0';
     signal buttons_stable: std_logic := '0';
@@ -25,7 +25,7 @@ architecture behavioural_when_button_is_held_down_tb of when_button_is_held_down
 begin
 
     sut: switch_debouncer port map (
-        btn => btn,
+        buttons => buttons,
         clk => clk,
         buttons_stable => buttons_stable
     );
@@ -37,7 +37,7 @@ begin
 		test_runner_setup(runner, runner_cfg);
 		started <= '1';
         assert buttons_stable = '0';
-        btn <= 1;
+        buttons <= "0001";
         wait for 20.1 ns;
         assert buttons_stable = '0';
         wait for 20.1 ns;
