@@ -14,11 +14,11 @@ entity sequence_detector is port (
 end;
 
 architecture behavioural_sequence_detector of sequence_detector is
-    signal state : std_logic_vector(0 to 2) := "000";
-    signal finished_state : std_logic := '0';
-    signal button_pressed : std_logic := '0';
 begin
     process(buttons_stable, reset)
+        variable state : std_logic_vector(0 to 2) := "000";
+        variable finished_state : std_logic := '0';
+        variable button_pressed : std_logic := '0';
         variable sequence_detector_out : sequence_state_dto := (
             next_state => "000",
             button_pressed => '0',
@@ -27,21 +27,21 @@ begin
         variable count : integer := 0;
     begin
         if rising_edge(buttons_stable) then
-            if finished_state = '1' then
-                output_state <= finished;
-            end if;
-            if count >= 12 then
-                output_state <= locked;
-            end if;
             if output_state = neutral then
                 sequence_detector_out := get_next_state(state, buttons);
-                state <= sequence_detector_out.next_state;
-                button_pressed <= sequence_detector_out.button_pressed;
-                finished_state <= sequence_detector_out.finished;
+                state := sequence_detector_out.next_state;
+                button_pressed := sequence_detector_out.button_pressed;
+                finished_state := sequence_detector_out.finished;
                 if button_pressed = '1' then
                     count := count + 1;
                 end if;
             else
+            end if;
+            if finished_state = '1' then
+                output_state <= finished;
+            end if;
+            if count > 12 then
+                output_state <= locked;
             end if;
             log("state: "&std_logic_vector_to_string(state));
             log(" === buttons-state: "&std_logic_vector_to_string(buttons(2)&buttons(1)&buttons(0)));
@@ -51,9 +51,10 @@ begin
             log_line(" === buttons: "&std_logic_vector_to_string(buttons));
         end if;
         if reset = '1' then
-            state <= "000";
+            state := "000";
             output_state <= neutral;
             count := 0;
+            finished_state := '0';
         end if;
     end process;
 end;
