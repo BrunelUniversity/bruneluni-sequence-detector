@@ -7,6 +7,6 @@ package hardware_constants_pkg is
 end;
 
 package body hardware_constants_pkg is
-    constant MAIN_CLK_PERIOD: integer := 500000;
-    constant LIGHT_CLK_PERIOD: integer := 250000000;
+    constant MAIN_CLK_PERIOD: integer := 1000000;
+    constant LIGHT_CLK_PERIOD: integer := 25000000;
 end;
