@@ -14,7 +14,8 @@ architecture behavioural_when_12_consecutive_symbols_are_entered_but_not_every_c
     component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
         buttons_stable: in std_logic;
-        output_state: out out_state_enum
+        output_state: out out_state_enum;
+        internal_state: buffer std_logic_vector(0 to 2)
     );
     end component;
 

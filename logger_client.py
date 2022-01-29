@@ -1,3 +1,5 @@
+import time
+
 import serial
 
 ser = serial.Serial(port='COM3',
@@ -16,7 +18,7 @@ while True:
     text = ""
     if stuff == str.encode('|'):
         end = "\n"
-        print("", end=end)
+        print(f"time: {time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}", end=end)
         count = 0
     else:
         if count == 0:

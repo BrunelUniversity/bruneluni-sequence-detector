@@ -14,7 +14,8 @@ architecture behavioural_when_successful_combination_is_entered_tb of when_succe
     component sequence_detector port (
         buttons: in std_logic_vector(0 to 3);
         buttons_stable: in std_logic;
-        output_state: out out_state_enum
+        output_state: out out_state_enum;
+        internal_state: buffer std_logic_vector(0 to 2)
     );
     end component;
 

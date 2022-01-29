@@ -15,7 +15,8 @@ architecture behavioural_when_sequence_detector_is_reset_tb of when_sequence_det
         buttons: in std_logic_vector(0 to 3);
         buttons_stable: in std_logic;
         output_state: out out_state_enum;
-        reset: in std_logic
+        reset: in std_logic;
+        internal_state: buffer std_logic_vector(0 to 2)
     );
     end component;
 
